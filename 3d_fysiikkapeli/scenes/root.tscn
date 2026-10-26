@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bchw85yj1pokm"]
+
+[sub_resource type="Environment" id="Environment_7up8o"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_py7em"]
+size = Vector3(20.002, 1, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t1fed"]
+size = Vector3(20.103638, 1.0594482, 20.019043)
+
+[node name="Root" type="Node3D" unique_id=109334602]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1815335512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.04138, 11.11883, -23.560274)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1157148032]
+environment = SubResource("Environment_7up8o")
+
+[node name="WorldEdge" type="StaticBody3D" parent="." unique_id=121197124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9961052, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEdge" unique_id=1717128856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.012484, -1.4727161, -2.643909)
+shape = SubResource("BoxShape3D_py7em")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEdge" unique_id=1747503662]
+transform = Transform3D(1, 0, 0, 0, 0.9919796, 0, 0, 0, 1, -7.9091883, -2.0671487, -2.7946343)
+mesh = SubResource("BoxMesh_t1fed")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=590611728]
+transform = Transform3D(0.7071068, -0.35355338, 0.61237246, 0, 0.8660254, 0.50000006, -0.7071068, -0.35355338, 0.61237246, 10, 8, 10)
