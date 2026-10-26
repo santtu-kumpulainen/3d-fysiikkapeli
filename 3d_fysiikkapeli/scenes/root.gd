@@ -183,6 +183,17 @@ func update_score() -> void:
 	score_label.text = "Kaatuneet: %d%% / 100%%" % percentage
 
 
+func get_star_rating(percentage: int) -> String:
+	if percentage >= 100:
+		return "★★★"
+	elif percentage >= 90:
+		return "★★"
+	elif percentage >= 80:
+		return "★"
+	else:
+		return "Ei tähtiä"
+
+
 
 func _process(delta: float) -> void:
 	if game_over:
@@ -210,19 +221,30 @@ func _process(delta: float) -> void:
 
 
 
+
 func end_game(won: bool) -> void:
 	if game_over:
 		return
 
 	game_over = true
 
+	var percentage := get_fallen_percentage()
+	var stars := get_star_rating(percentage)
+
 	if won:
-		victory_label.text = "Voitit! Kaikki laatikot kaatuivat. Paina R pelataksesi uudelleen."
+		victory_label.text = "Voitit!\nKaatuneet: %d%%\nTähdet: %s\nPaina R pelataksesi uudelleen." % [
+			percentage,
+			stars
+		]
 	else:
-		victory_label.text = "Peli päättyi! Kaatuneet: %d%%. Paina R yrittääksesi uudelleen." % get_fallen_percentage()
+		victory_label.text = "Peli päättyi!\nKaatuneet: %d%%\nTähdet: %s\nPaina R yrittääksesi uudelleen." % [
+			percentage,
+			stars
+		]
 
 	victory_label.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
 	
 	
 func _on_box_toppled(block: RigidBody3D) -> void:
