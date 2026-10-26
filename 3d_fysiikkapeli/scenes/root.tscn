@@ -46,28 +46,78 @@ transform = Transform3D(0.86864924, -0.2477139, 0.42905304, 0, 0.8660254, 0.5000
 [node name="Boxes" type="Node" parent="." unique_id=2594051]
 
 [node name="Box1" parent="Boxes" unique_id=1642724522 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.07, 0, 0)
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -6.2904787, 0, -0.088383555)
 
-[node name="Box2" parent="Boxes" unique_id=574468394 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.1469035, 0, 0)
+[node name="Box2e" parent="Boxes" unique_id=574468394 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -7.3391075, 0, -0.33353442)
+block_type = 2
 
 [node name="Box3" parent="Boxes" unique_id=1697580399 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.97695, 0, 0)
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.2261276, 0, 0.16044307)
 
 [node name="Box4" parent="Boxes" unique_id=593996960 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.020108, 1.9877317, 0)
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.268152, 1.9877317, 0.15061831)
 
 [node name="Box5" parent="Boxes" unique_id=1269340170 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3065543, 2.0196013, 0)
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -6.520822, 2.0196013, -0.14223373)
 
 [node name="Box6" parent="Boxes" unique_id=546933311 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.550475, 5.995189, 0)
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.784594, 5.995189, -1.1968937)
 
 [node name="Box7" parent="Boxes" unique_id=1225059111 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.005579, 3.980349, 0)
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.2540045, 3.980349, 0.15392578)
 
 [node name="Box8" parent="Boxes" unique_id=815354045 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3000965, 3.9452639, 0)
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -6.514534, 3.9452639, -0.14076364)
+
+[node name="Box9" parent="Boxes" unique_id=227077019 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -6.0628347, 0, -1.2838429)
+
+[node name="Box10" parent="Boxes" unique_id=1653607108 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -7.111463, 0, -1.5289938)
+
+[node name="Box11" parent="Boxes" unique_id=1431005029 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -4.998483, 0, -1.0350163)
+
+[node name="Box12" parent="Boxes" unique_id=388227039 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.0405083, 1.9877317, -1.044841)
+
+[node name="Box13" parent="Boxes" unique_id=973137336 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -6.2931776, 2.0196013, -1.3376931)
+
+[node name="Box14ba" parent="Boxes" unique_id=1024183041 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.55695, 5.995189, 0.05393505)
+block_type = 1
+
+[node name="Box15" parent="Boxes" unique_id=774248924 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.0263605, 3.980349, -1.0415335)
+
+[node name="Box16" parent="Boxes" unique_id=419030853 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -6.2868896, 3.9452639, -1.336223)
+
+[node name="Box17" parent="Boxes" unique_id=411872513 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.8351903, 0, -2.4357939)
+
+[node name="Box18" parent="Boxes" unique_id=2003683205 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -6.8838186, 0, -2.6809447)
+
+[node name="Box19" parent="Boxes" unique_id=1109954367 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -4.7708387, 0, -2.1869671)
+
+[node name="Box20" parent="Boxes" unique_id=535532148 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -4.812864, 1.9877317, -2.196792)
+
+[node name="Box21" parent="Boxes" unique_id=1779313614 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -6.0655336, 2.0196013, -2.489644)
+
+[node name="Box22" parent="Boxes" unique_id=1046307806 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.3293056, 5.995189, -2.3175268)
+
+[node name="Box23" parent="Boxes" unique_id=369062069 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -4.798716, 3.980349, -2.1934843)
+
+[node name="Box24" parent="Boxes" unique_id=130006875 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -6.059245, 3.9452639, -2.488174)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=15505303]
 

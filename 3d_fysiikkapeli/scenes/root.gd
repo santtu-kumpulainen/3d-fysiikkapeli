@@ -10,9 +10,11 @@ extends Node3D
 @onready var victory_label: Label = $CanvasLayer/Message
 @onready var score_label: Label = $CanvasLayer/ScoreLabel
 
-var ammo_left: int = 3
+var ammo_left: int = 5
 var game_over: bool = false
 var camera_pitch: float = 0.0
+
+
 
 
 func _ready() -> void:
@@ -20,6 +22,12 @@ func _ready() -> void:
 	ammo_label.text = "Ammuksia: " + str(ammo_left)
 	victory_label.visible = false
 	update_score()
+
+	for box in get_tree().get_nodes_in_group("tower_boxes"):
+		if box.has_signal("toppled"):
+			box.toppled.connect(_on_box_toppled)
+
+
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -121,3 +129,36 @@ func end_game(won: bool) -> void:
 
 	victory_label.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	
+func _on_box_toppled(block: RigidBody3D) -> void:
+	if game_over:
+		return
+
+	match block.block_type:
+		0:
+			pass
+		1:
+			ammo_left += 2
+			ammo_label.text = "Ammuksia: " + str(ammo_left)
+		2:
+			explode(block)
+
+
+func explode(block: RigidBody3D) -> void:
+	var explosion_radius := 4.0
+	var explosion_force := 8.0
+
+	for other in get_tree().get_nodes_in_group("tower_boxes"):
+		if other == block:
+			continue
+
+		if not other is RigidBody3D:
+			continue
+
+		var distance = block.global_position.distance_to(other.global_position)
+
+		if distance <= explosion_radius:
+			var direction = (other.global_position - block.global_position).normalized()
+			direction.y += 0.5
+			other.apply_central_impulse(direction.normalized() * explosion_force)

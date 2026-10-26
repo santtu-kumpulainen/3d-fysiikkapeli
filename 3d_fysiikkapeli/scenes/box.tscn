@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://ddibfshvvympk"]
 
+[ext_resource type="Script" uid="uid://cgg5cdprv0ugj" path="res://scenes/box.gd" id="1_3inec"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_py7em"]
 size = Vector3(1, 2.140564, 1)
 
@@ -7,6 +9,7 @@ size = Vector3(1, 2.140564, 1)
 size = Vector3(1, 1.9833984, 1)
 
 [node name="Box" type="RigidBody3D" unique_id=1642724522 groups=["tower_boxes"]]
+script = ExtResource("1_3inec")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2066689434]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
