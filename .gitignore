@@ -1,0 +1,19 @@
+
+# Godot generated cache and editor data
+.godot/
+
+# Godot editor metadata
+.import/
+
+# IDE settings
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.bak
