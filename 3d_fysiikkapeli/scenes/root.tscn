@@ -17,7 +17,7 @@ sky = SubResource("Sky_py7em")
 size = Vector3(20.002, 1, 20)
 
 [sub_resource type="BoxMesh" id="BoxMesh_t1fed"]
-size = Vector3(20.103638, 1.0594482, 20.019043)
+size = Vector3(53.161133, 1.0594482, 47.689453)
 
 [node name="Root" type="Node3D" unique_id=109334602]
 script = ExtResource("1_twpsu")
@@ -37,7 +37,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.012484, -1.0447385, -2.643
 shape = SubResource("BoxShape3D_py7em")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEdge" unique_id=1747503662]
-transform = Transform3D(1, 0, 0, 0, 0.9919796, 0, 0, 0, 1, -7.9091883, -1.0447385, -2.7946343)
+transform = Transform3D(1, 0, 0, 0, 0.9919796, 0, 0, 0, 1, -9.880425, -1.0447385, -8.546465)
 mesh = SubResource("BoxMesh_t1fed")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=590611728]
