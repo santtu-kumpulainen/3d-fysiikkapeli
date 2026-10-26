@@ -40,3 +40,7 @@ func _physics_process(_delta: float) -> void:
 	if angle >= deg_to_rad(45.0):
 		effect_triggered = true
 		toppled.emit(self)
+
+
+func get_block_type() -> int:
+	return block_type

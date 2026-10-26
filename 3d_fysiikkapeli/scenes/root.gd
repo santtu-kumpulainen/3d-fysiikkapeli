@@ -10,6 +10,9 @@ extends Node3D
 @onready var victory_label: Label = $CanvasLayer/Message
 @onready var score_label: Label = $CanvasLayer/ScoreLabel
 @onready var timer_label: Label = $CanvasLayer/TimerLabel
+@onready var crosshair: Label = $CanvasLayer/Crosshair
+@onready var force_label: Label = $CanvasLayer/ForceLabel
+@onready var controls_label: Label = $CanvasLayer/ControlsLabel
 
 var time_left: float = 20.0
 
@@ -17,11 +20,19 @@ var ammo_left: int = 5
 var game_over: bool = false
 var camera_pitch: float = 0.0
 
+var normal_fov: float = 75.0
+var zoom_fov: float = 40.0
+var force_step: float = 5.0
+var min_force: float = 5.0
+var max_force: float = 50.0
+
+
 
 
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
 	ammo_label.text = "Ammuksia: " + str(ammo_left)
 	victory_label.visible = false
 	update_score()
@@ -29,9 +40,49 @@ func _ready() -> void:
 	for box in get_tree().get_nodes_in_group("tower_boxes"):
 		if box.has_signal("toppled"):
 			box.toppled.connect(_on_box_toppled)
-			
-	timer_label.text = "Aikaa: 60"
 
+	timer_label.text = "Aikaa: %d" % ceili(time_left)
+
+	normal_fov = camera.fov
+	camera.fov = normal_fov
+
+	# Tähtäin keskelle näyttöä
+	crosshair.visible = true
+	crosshair.set_anchors_preset(Control.PRESET_CENTER)
+	crosshair.offset_left = -15
+	crosshair.offset_top = -20
+	crosshair.offset_right = 15
+	crosshair.offset_bottom = 20
+	crosshair.text = "+"
+	crosshair.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	crosshair.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	crosshair.z_index = 10
+
+	# Voimanäyttö vasempaan alakulmaan
+	force_label.visible = true
+	force_label.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	force_label.offset_left = 20
+	force_label.offset_top = -45
+	force_label.offset_right = 220
+	force_label.offset_bottom = -15
+	force_label.z_index = 10
+	update_force_label()
+
+	# Ohjeet oikeaan alakulmaan
+	controls_label.visible = true
+	controls_label.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	controls_label.offset_left = -240
+	controls_label.offset_top = -100
+	controls_label.offset_right = -20
+	controls_label.offset_bottom = -20
+	controls_label.text = "SPACE - Zoomaus\n- - Vähennä voimaa\n+ - Lisää voimaa"
+	controls_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	controls_label.z_index = 10
+
+
+
+func update_force_label() -> void:
+	force_label.text = "Voima: " + str(int(force))
 
 
 
@@ -52,12 +103,33 @@ func _unhandled_input(event: InputEvent) -> void:
 			if not game_over:
 				shoot()
 
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_ESCAPE:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	if event is InputEventKey:
+		if event.pressed and not event.echo:
+			match event.keycode:
+				KEY_ESCAPE:
+					Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-		elif event.keycode == KEY_R and game_over:
-			get_tree().reload_current_scene()
+				KEY_R:
+					if game_over:
+						get_tree().reload_current_scene()
+
+				KEY_SPACE:
+					if not game_over:
+						camera.fov = zoom_fov
+
+				KEY_MINUS, KEY_KP_SUBTRACT:
+					if not game_over:
+						force = maxf(force - force_step, min_force)
+						update_force_label()
+
+				KEY_EQUAL, KEY_KP_ADD:
+					if not game_over:
+						force = minf(force + force_step, max_force)
+						update_force_label()
+
+		elif not event.pressed and event.keycode == KEY_SPACE:
+			camera.fov = normal_fov
+
 
 
 func shoot() -> void:
@@ -156,6 +228,18 @@ func end_game(won: bool) -> void:
 func _on_box_toppled(block: RigidBody3D) -> void:
 	if game_over:
 		return
+
+	if not block.has_method("get_block_type"):
+		return
+
+	match block.get_block_type():
+		0:
+			pass
+		1:
+			ammo_left += 2
+			ammo_label.text = "Ammuksia: " + str(ammo_left)
+		2:
+			explode(block)
 
 	match block.block_type:
 		0:
