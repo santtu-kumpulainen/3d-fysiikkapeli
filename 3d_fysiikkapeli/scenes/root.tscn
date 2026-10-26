@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://bchw85yj1pokm"]
 
 [ext_resource type="PackedScene" uid="uid://ddibfshvvympk" path="res://scenes/box.tscn" id="1_j5px3"]
+[ext_resource type="Script" uid="uid://bkc6llry8sdku" path="res://scenes/root.gd" id="1_twpsu"]
+[ext_resource type="PackedScene" uid="uid://b7yy3xi4c0r27" path="res://scenes/projectile.tscn" id="2_twpsu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t1fed"]
 
@@ -18,6 +20,8 @@ size = Vector3(20.002, 1, 20)
 size = Vector3(20.103638, 1.0594482, 20.019043)
 
 [node name="Root" type="Node3D" unique_id=109334602]
+script = ExtResource("1_twpsu")
+projectile_scene = ExtResource("2_twpsu")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1815335512]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.04138, 11.11883, -23.560274)
@@ -37,7 +41,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9919796, 0, 0, 0, 1, -7.9091883, -1.044738
 mesh = SubResource("BoxMesh_t1fed")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=590611728]
-transform = Transform3D(0.7071068, -0.35355338, 0.61237246, 0, 0.8660254, 0.50000006, -0.7071068, -0.35355338, 0.61237246, 10, 8, 10)
+transform = Transform3D(0.7071068, -0.35355338, 0.61237246, 0, 0.8660254, 0.50000006, -0.7071068, -0.35355338, 0.61237246, -0.269557, 7.6436462, 6.320179)
 
 [node name="Boxes" type="Node" parent="." unique_id=2594051]
 

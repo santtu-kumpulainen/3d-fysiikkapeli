@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://b7yy3xi4c0r27"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_py7em"]
+radius = 0.25
+
+[sub_resource type="SphereMesh" id="SphereMesh_t1fed"]
+radius = 0.25
+height = 0.5
+
+[node name="Projectile" type="RigidBody3D" unique_id=765478939]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1465928389]
+shape = SubResource("SphereShape3D_py7em")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1702409920]
+mesh = SubResource("SphereMesh_t1fed")
