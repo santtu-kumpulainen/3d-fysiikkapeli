@@ -9,6 +9,9 @@ extends Node3D
 @onready var ammo_label: Label = $CanvasLayer/AmmoLabel
 @onready var victory_label: Label = $CanvasLayer/Message
 @onready var score_label: Label = $CanvasLayer/ScoreLabel
+@onready var timer_label: Label = $CanvasLayer/TimerLabel
+
+var time_left: float = 20.0
 
 var ammo_left: int = 5
 var game_over: bool = false
@@ -26,6 +29,8 @@ func _ready() -> void:
 	for box in get_tree().get_nodes_in_group("tower_boxes"):
 		if box.has_signal("toppled"):
 			box.toppled.connect(_on_box_toppled)
+			
+	timer_label.text = "Aikaa: 60"
 
 
 
@@ -106,14 +111,31 @@ func update_score() -> void:
 	score_label.text = "Kaatuneet: %d%% / 100%%" % percentage
 
 
-func _process(_delta: float) -> void:
+
+func _process(delta: float) -> void:
 	if game_over:
 		return
 
 	update_score()
 
+	# 100 % kaatuneita laatikoita tarkoittaa voittoa
 	if get_fallen_percentage() >= 100:
 		end_game(true)
+		return
+
+	# Vähennä aikaa
+	time_left -= delta
+	time_left = maxf(time_left, 0.0)
+
+	timer_label.text = "Aikaa: %d" % ceili(time_left)
+
+	# Ajan loppuminen tarkoittaa häviötä
+	if time_left <= 0.0:
+		game_over = true
+		victory_label.text = "Aika loppui! Kaatuneet: %d%%. Paina R yrittääksesi uudelleen." % get_fallen_percentage()
+		victory_label.visible = true
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
 
 
 func end_game(won: bool) -> void:
