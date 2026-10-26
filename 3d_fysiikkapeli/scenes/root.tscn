@@ -42,25 +42,25 @@ transform = Transform3D(0.7071068, -0.35355338, 0.61237246, 0, 0.8660254, 0.5000
 [node name="Boxes" type="Node" parent="." unique_id=2594051]
 
 [node name="Box1" parent="Boxes" unique_id=1642724522 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -6.07, 3.2738562, 1.1009595)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.07, 0, 0)
 
 [node name="Box2" parent="Boxes" unique_id=574468394 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -7.1469035, 3.2738562, 1.1009595)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.1469035, 0, 0)
 
 [node name="Box3" parent="Boxes" unique_id=1697580399 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -4.97695, 3.2738562, 1.1009595)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.97695, 0, 0)
 
 [node name="Box4" parent="Boxes" unique_id=593996960 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -5.020108, 5.0051775, 0.124432795)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.020108, 1.9877317, 0)
 
 [node name="Box5" parent="Boxes" unique_id=1269340170 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -6.3065543, 5.0329356, 0.108776085)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3065543, 2.0196013, 0)
 
 [node name="Box6" parent="Boxes" unique_id=546933311 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -5.550475, 8.495686, -1.8443379)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.550475, 5.995189, 0)
 
 [node name="Box7" parent="Boxes" unique_id=1225059111 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -5.005579, 6.740754, -0.8544939)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.005579, 3.980349, 0)
 
 [node name="Box8" parent="Boxes" unique_id=815354045 instance=ExtResource("1_j5px3")]
-transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -6.3000965, 6.7101946, -0.8372573)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3000965, 3.9452639, 0)
