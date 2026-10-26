@@ -68,3 +68,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.005579, 3.980349, 0)
 
 [node name="Box8" parent="Boxes" unique_id=815354045 instance=ExtResource("1_j5px3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3000965, 3.9452639, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=15505303]
+
+[node name="Message" type="Label" parent="CanvasLayer" unique_id=1730163135]
+offset_left = 152.0
+offset_top = 18.0
+offset_right = 289.0
+offset_bottom = 41.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AmmoLabel" type="Label" parent="CanvasLayer" unique_id=1881290787]
+offset_left = 25.0
+offset_top = 18.0
+offset_right = 125.0
+offset_bottom = 41.0
+text = "Ammuksia: 3"
