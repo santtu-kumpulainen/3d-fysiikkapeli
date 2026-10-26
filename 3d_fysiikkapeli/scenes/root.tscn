@@ -22,8 +22,6 @@ size = Vector3(20.103638, 1.0594482, 20.019043)
 [node name="Root" type="Node3D" unique_id=109334602]
 script = ExtResource("1_twpsu")
 projectile_scene = ExtResource("2_twpsu")
-force = null
-mouse_sensitivity = null
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1815335512]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.04138, 11.11883, -23.560274)
@@ -87,3 +85,10 @@ offset_top = 18.0
 offset_right = 125.0
 offset_bottom = 41.0
 text = "Ammuksia: 3"
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer" unique_id=1466009612]
+offset_left = 961.0
+offset_top = 18.0
+offset_right = 1001.0
+offset_bottom = 41.0
+horizontal_alignment = 1
