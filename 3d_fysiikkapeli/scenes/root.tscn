@@ -1,6 +1,15 @@
 [gd_scene format=3 uid="uid://bchw85yj1pokm"]
 
+[ext_resource type="PackedScene" uid="uid://ddibfshvvympk" path="res://scenes/box.tscn" id="1_j5px3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t1fed"]
+
+[sub_resource type="Sky" id="Sky_py7em"]
+sky_material = SubResource("ProceduralSkyMaterial_t1fed")
+
 [sub_resource type="Environment" id="Environment_7up8o"]
+background_mode = 2
+sky = SubResource("Sky_py7em")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_py7em"]
 size = Vector3(20.002, 1, 20)
@@ -17,15 +26,41 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.04138, 11.11883, -23.5602
 environment = SubResource("Environment_7up8o")
 
 [node name="WorldEdge" type="StaticBody3D" parent="." unique_id=121197124]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9961052, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEdge" unique_id=1717128856]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.012484, -1.4727161, -2.643909)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.012484, -1.0447385, -2.643909)
 shape = SubResource("BoxShape3D_py7em")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEdge" unique_id=1747503662]
-transform = Transform3D(1, 0, 0, 0, 0.9919796, 0, 0, 0, 1, -7.9091883, -2.0671487, -2.7946343)
+transform = Transform3D(1, 0, 0, 0, 0.9919796, 0, 0, 0, 1, -7.9091883, -1.0447385, -2.7946343)
 mesh = SubResource("BoxMesh_t1fed")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=590611728]
 transform = Transform3D(0.7071068, -0.35355338, 0.61237246, 0, 0.8660254, 0.50000006, -0.7071068, -0.35355338, 0.61237246, 10, 8, 10)
+
+[node name="Boxes" type="Node" parent="." unique_id=2594051]
+
+[node name="Box1" parent="Boxes" unique_id=1642724522 instance=ExtResource("1_j5px3")]
+transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -6.07, 3.2738562, 1.1009595)
+
+[node name="Box2" parent="Boxes" unique_id=574468394 instance=ExtResource("1_j5px3")]
+transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -7.1469035, 3.2738562, 1.1009595)
+
+[node name="Box3" parent="Boxes" unique_id=1697580399 instance=ExtResource("1_j5px3")]
+transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -4.97695, 3.2738562, 1.1009595)
+
+[node name="Box4" parent="Boxes" unique_id=593996960 instance=ExtResource("1_j5px3")]
+transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -5.020108, 5.0051775, 0.124432795)
+
+[node name="Box5" parent="Boxes" unique_id=1269340170 instance=ExtResource("1_j5px3")]
+transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -6.3065543, 5.0329356, 0.108776085)
+
+[node name="Box6" parent="Boxes" unique_id=546933311 instance=ExtResource("1_j5px3")]
+transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -5.550475, 8.495686, -1.8443379)
+
+[node name="Box7" parent="Boxes" unique_id=1225059111 instance=ExtResource("1_j5px3")]
+transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -5.005579, 6.740754, -0.8544939)
+
+[node name="Box8" parent="Boxes" unique_id=815354045 instance=ExtResource("1_j5px3")]
+transform = Transform3D(1, 0, 0, 0, 0.87100345, 0.49127686, 0, -0.49127686, 0.87100345, -6.3000965, 6.7101946, -0.8372573)
