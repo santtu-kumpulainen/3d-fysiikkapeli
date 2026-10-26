@@ -9,6 +9,7 @@ extends Node3D
 @onready var ammo_label: Label = $CanvasLayer/AmmoLabel
 @onready var victory_label: Label = $CanvasLayer/Message
 
+
 var ammo_left := 3
 var game_over := false
 
@@ -44,6 +45,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 
+
 func shoot() -> void:
 	if game_over or ammo_left <= 0:
 		return
@@ -59,7 +61,57 @@ func shoot() -> void:
 	projectile.apply_central_impulse(direction * force)
 
 	if ammo_left == 0:
-		game_over = true
-		victory_label.text = "Peli päättyi! Paina R pelataksesi uudelleen."
-		victory_label.visible = true
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		await get_tree().create_timer(3.0).timeout
+
+		if not game_over:
+			end_game(check_victory())
+
+
+
+
+
+func count_fallen_boxes() -> int:
+	var boxes = get_tree().get_nodes_in_group("tower_boxes")
+	var fallen := 0
+
+	for box in boxes:
+		var up_direction = box.global_transform.basis.y.normalized()
+		var angle = up_direction.angle_to(Vector3.UP)
+
+		if angle >= deg_to_rad(45.0):
+			fallen += 1
+
+	return fallen
+
+
+
+func check_victory() -> bool:
+	var boxes = get_tree().get_nodes_in_group("tower_boxes")
+
+	if boxes.is_empty():
+		return false
+
+	return float(count_fallen_boxes()) / float(boxes.size()) >= 0.8
+
+
+func _process(_delta: float) -> void:
+	if game_over:
+		return
+
+	if check_victory():
+		end_game(true)
+
+
+func end_game(won: bool) -> void:
+	if game_over:
+		return
+
+	game_over = true
+
+	if won:
+		victory_label.text = "Voitit! Vähintään 80 % laatikoista putosi. Paina R pelataksesi uudelleen."
+	else:
+		victory_label.text = "Hävisit! Ammukset loppuivat. Paina R yrittääksesi uudelleen."
+
+	victory_label.visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
