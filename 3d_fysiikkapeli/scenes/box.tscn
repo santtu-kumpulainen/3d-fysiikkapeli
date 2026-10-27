@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://ddibfshvvympk"]
 
 [ext_resource type="Script" uid="uid://cgg5cdprv0ugj" path="res://scenes/box.gd" id="1_3inec"]
+[ext_resource type="PackedScene" uid="uid://drgq4nblabwpm" path="res://assets/models/crate.glb" id="2_ks2v0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_py7em"]
 size = Vector3(1, 2.140564, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_py7em"]
 size = Vector3(1, 1.9833984, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ipefv"]
 
 [node name="Box" type="RigidBody3D" unique_id=1642724522 groups=["tower_boxes"]]
 script = ExtResource("1_3inec")
@@ -18,3 +21,7 @@ shape = SubResource("BoxShape3D_py7em")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=113281993]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
 mesh = SubResource("BoxMesh_py7em")
+surface_material_override/0 = SubResource("StandardMaterial3D_ipefv")
+
+[node name="crate" parent="MeshInstance3D" unique_id=1427728702 instance=ExtResource("2_ks2v0")]
+transform = Transform3D(2.0205612, 0, 0, 0, 3.598468, 0, 0, 0, 2.099531, 0, -1.0774198, 0)
