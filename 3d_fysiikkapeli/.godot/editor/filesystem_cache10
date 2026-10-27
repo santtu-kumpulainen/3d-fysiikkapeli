@@ -1,3 +1,11 @@
 78098b89c88a74ebe8c20117b8754620
-::res://::1792995944
+::res://::1793081232
 icon.svg::CompressedTexture2D::3763268688163060685::1792995941::1792995945::1::::<><><>0<>0<>b507a631f925b4ebba016501a6c23329<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+::res://scenes/::1793081652
+box.gd::GDScript::5208185958653146653::1793011873::0::1::::<>RigidBody3D<><>0<>0<><>::
+box.tscn::PackedScene::7386414207205267624::1793009972::0::1::::<><><>0<>0<><>::uid://cgg5cdprv0ugj::::res://scenes/box.gd
+projectile.tscn::PackedScene::4683517177980096002::1793003713::0::1::::<><><>0<>0<><>::
+root.gd::GDScript::3094340351244045908::1793012148::0::1::::<>Node3D<><>0<>0<><>::
+root.tscn::PackedScene::2542645333507387984::1793015377::0::1::::<><><>0<>0<><>::uid://ddibfshvvympk::::res://scenes/box.tscn<>uid://bkc6llry8sdku::::res://scenes/root.gd<>uid://b7yy3xi4c0r27::::res://scenes/projectile.tscn
+::res://scenes/levels/::0
+level_2.tscn::PackedScene::7291540881340663227::1793081652::0::1::::<><><>0<>0<><>::uid://bkc6llry8sdku::::res://scenes/root.gd<>uid://b7yy3xi4c0r27::::res://scenes/projectile.tscn<>uid://ddibfshvvympk::::res://scenes/box.tscn

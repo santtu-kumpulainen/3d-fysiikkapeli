@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="3D Fysiikkapeli"
-run/main_scene="uid://bchw85yj1pokm"
+run/main_scene="uid://b4f7pdbif2jn0"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
