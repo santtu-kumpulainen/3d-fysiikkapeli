@@ -20,7 +20,7 @@ extends Node3D
 
 const MENU_SCENE := "res://scenes/main_menu.tscn"
 
-var time_left: float = 20.0
+var time_left: float = 60.0
 var ammo_left: int = 5
 var game_over: bool = false
 var camera_pitch: float = 0.0
@@ -173,7 +173,7 @@ func shoot() -> void:
 	projectile.global_position = camera.global_position + direction * 1.5
 	projectile.apply_central_impulse(direction * force)
 
-	# Odota fysiikan käsittelyä viimeisen laukauksen jälkeen.
+	# Wait for blocks
 	if ammo_left == 0:
 		await get_tree().create_timer(5.0).timeout
 		if not game_over:
