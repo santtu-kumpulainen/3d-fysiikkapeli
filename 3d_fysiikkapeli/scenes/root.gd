@@ -7,6 +7,8 @@ extends Node3D
 
 @onready var camera: Camera3D = $Camera3D
 @onready var hud: GameHUD = $HUD
+## Vain satunnaisen kentän kohtauksessa. Sen olemassaolo kytkee satunnaisen pelimuodon päälle.
+@onready var level_generator: LevelGenerator = get_node_or_null("LevelGenerator")
 
 
 
@@ -21,6 +23,8 @@ var ammo_left: int = 5
 var game_over: bool = false
 var camera_pitch: float = 0.0
 var level_id: String = ""
+## Generoidun tornin tiedot (siemen, palikat, määrät). Tyhjä tavallisissa kentissä.
+var random_layout: Dictionary = {}
 
 var normal_fov: float = 75.0
 var zoom_fov: float = 40.0
@@ -44,10 +48,14 @@ var camera_base_position: Vector3
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-	level_id = SaveManager.get_level_id_for_scene(scene_file_path)
+	# Torni generoidaan ennen signaalien kytkentää, pisteytystä ja ajastinta.
+	if is_random_mode():
+		_generate_random_tower()
+	else:
+		level_id = SaveManager.get_level_id_for_scene(scene_file_path)
 
-	if level_id.is_empty():
-		push_warning("Kenttää ei löydy SaveManagerin listasta, tulosta ei tallenneta: " + scene_file_path)
+		if level_id.is_empty():
+			push_warning("Kenttää ei löydy SaveManagerin listasta, tulosta ei tallenneta: " + scene_file_path)
 
 	hud.set_ammo(ammo_left)
 	update_score()
@@ -70,6 +78,18 @@ func _ready() -> void:
 
 	camera_base_position = camera.position
 
+
+func is_random_mode() -> bool:
+	return level_generator != null
+
+
+func _generate_random_tower() -> void:
+	# Kohtaus voidaan käynnistää myös suoraan editorista ilman valikkoa.
+	if not RandomRun.active:
+		RandomRun.start_run()
+
+	random_layout = level_generator.generate(RandomRun.current_seed)
+	hud.set_random_info(RandomRun.current_seed, random_layout["blocks"].size(), RandomRun.streak)
 
 
 func update_force_label() -> void:
@@ -238,14 +258,6 @@ func _process(delta: float) -> void:
 
 
 
-	time_left = maxf(time_left - delta, 0.0)
-	hud.set_time(time_left)
-
-	if time_left <= 0.0:
-		end_game()
-
-
-
 ## Kierroksen loppu. Läpäisy ratkeaa tähtien perusteella riippumatta siitä,
 ## loppuiko kierros aikaan, ammuksiin vai kaikkien palikoiden kaatumiseen.
 func end_game() -> void:
@@ -255,6 +267,12 @@ func end_game() -> void:
 	game_over = true
 
 	var percentage := get_fallen_percentage()
+
+	if is_random_mode():
+		_end_random_round(percentage)
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		return
+
 	var stars := get_star_rating(percentage)
 	var completed := stars > 0
 	var new_record := false
@@ -278,6 +296,29 @@ func end_game() -> void:
 
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+
+## Satunnaisessa pelimuodossa ei tallenneta tähtiä eikä kenttätuloksia, vaan putki.
+## Läpäisyraja on sama kuin tavallisissa kentissä (vähintään yksi tähti).
+func _end_random_round(percentage: int) -> void:
+	var completed := get_star_rating(percentage) > 0
+	var new_record := false
+
+	if completed:
+		new_record = RandomRun.record_success()
+	else:
+		RandomRun.record_failure()
+		new_record = RandomRun.run_new_record
+
+	hud.set_random_info(RandomRun.current_seed, random_layout["blocks"].size(), RandomRun.streak)
+	hud.show_random_result(
+		completed,
+		percentage,
+		COMPLETION_PERCENT,
+		RandomRun.streak,
+		SaveManager.get_best_streak(),
+		new_record,
+		RandomRun.current_seed
+	)
 
 
 func _on_box_toppled(block: RigidBody3D) -> void:
@@ -344,10 +385,21 @@ func apply_camera_shake(strength: float = 0.12) -> void:
 
 func _on_retry_pressed() -> void:
 	print("Yritä uudelleen painettu")
+
+	# Satunnaisessa pelimuodossa uusinta on sallittu vain epäonnistumisen jälkeen.
+	if is_random_mode() and not RandomRun.retry():
+		return
+
 	get_tree().reload_current_scene()
 
 
 func _on_next_pressed() -> void:
+	if is_random_mode():
+		# Uusi siemen arvotaan vasta, kun pelaaja päättää jatkaa.
+		if RandomRun.advance():
+			get_tree().reload_current_scene()
+		return
+
 	var next_id := SaveManager.get_next_level_id(level_id)
 
 	if next_id.is_empty() or not SaveManager.is_level_unlocked(next_id):
@@ -358,4 +410,7 @@ func _on_next_pressed() -> void:
 
 
 func _on_menu_pressed() -> void:
+	if is_random_mode():
+		RandomRun.end_run()
+
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

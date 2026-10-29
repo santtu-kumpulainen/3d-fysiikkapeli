@@ -10,6 +10,15 @@ extends Control
 @onready var levels_button: Button = %LevelsButton
 @onready var quit_button: Button = %QuitButton
 @onready var back_button: Button = %BackButton
+@onready var random_button: Button = %RandomButton
+@onready var random_panel: Control = %RandomPanel
+@onready var best_streak_label: Label = %BestStreakLabel
+@onready var seed_edit: LineEdit = %SeedEdit
+@onready var seed_error_label: Label = %SeedErrorLabel
+@onready var start_random_button: Button = %StartRandomButton
+@onready var random_back_button: Button = %RandomBackButton
+
+const RANDOM_LEVEL_SCENE := "res://scenes/levels/random_level.tscn"
 
 
 func _ready() -> void:
@@ -19,6 +28,10 @@ func _ready() -> void:
 	levels_button.pressed.connect(_show_level_select)
 	quit_button.pressed.connect(_on_quit_pressed)
 	back_button.pressed.connect(_show_main)
+	random_button.pressed.connect(_show_random_mode)
+	start_random_button.pressed.connect(_on_start_random_pressed)
+	random_back_button.pressed.connect(_show_main)
+	seed_edit.text_submitted.connect(func(_text: String) -> void: _on_start_random_pressed())
 
 	notice_label.text = SaveManager.load_warning
 	notice_label.visible = not SaveManager.load_warning.is_empty()
@@ -29,6 +42,7 @@ func _ready() -> void:
 
 func _show_main() -> void:
 	level_panel.hide()
+	random_panel.hide()
 	main_panel.show()
 	play_button.grab_focus()
 
@@ -37,6 +51,35 @@ func _show_level_select() -> void:
 	main_panel.hide()
 	level_panel.show()
 	back_button.grab_focus()
+
+
+func _show_random_mode() -> void:
+	main_panel.hide()
+	best_streak_label.text = "Ennätys: %d kenttää" % SaveManager.get_best_streak()
+	seed_error_label.hide()
+	random_panel.show()
+	start_random_button.grab_focus()
+
+
+## Tyhjä siemenkenttä arpoo uuden siemenen. Jokainen aloitus on uusi juoksu putkesta nolla.
+func _on_start_random_pressed() -> void:
+	var seed_text := seed_edit.text.strip_edges()
+	var seed_value := -1
+
+	if not seed_text.is_empty():
+		seed_value = RandomRun.parse_seed(seed_text)
+
+		if seed_value < 0:
+			seed_error_label.show()
+			return
+
+	RandomRun.start_run(seed_value)
+
+	var error := get_tree().change_scene_to_file(RANDOM_LEVEL_SCENE)
+
+	if error != OK:
+		RandomRun.end_run()
+		push_error("Satunnaisen kentän latauksen käynnistäminen epäonnistui, virhekoodi: %s" % error)
 
 
 func _build_level_cards() -> void:

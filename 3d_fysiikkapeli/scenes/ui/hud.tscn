@@ -40,6 +40,31 @@ size_flags_horizontal = 3
 text = "Kaatuneet: 0 %"
 horizontal_alignment = 2
 
+[node name="StreakLabel" type="Label" parent="TopBar/Row"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Putki: 0 kenttää"
+horizontal_alignment = 2
+
+[node name="RandomInfoPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 16.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="RandomInfoLabel" type="Label" parent="RandomInfoPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Siemen: 0 · 0 palikkaa"
+
 [node name="Crosshair" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 3
@@ -146,6 +171,13 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"StarsLabel"
 text = "☆☆☆"
+horizontal_alignment = 1
+
+[node name="ResultStreak" type="Label" parent="ResultOverlay/Center/ResultPanel/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Putki: 0 kenttää"
 horizontal_alignment = 1
 
 [node name="ResultRecord" type="Label" parent="ResultOverlay/Center/ResultPanel/Content"]

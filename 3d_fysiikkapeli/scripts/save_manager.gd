@@ -1,6 +1,7 @@
 extends Node
 
-## Pelaajan edistyminen: kenttien parhaat tulokset, tähdet ja läpäisyt.
+## Pelaajan edistyminen: kenttien parhaat tulokset, tähdet ja läpäisyt sekä
+## satunnaisen pelimuodon paras putki (random_mode), joka pidetään erillään kenttien tuloksista.
 ## Tallennetaan versioituna JSON-tiedostona user://-hakemistoon.
 ## Kentän avautuminen johdetaan edellisen kentän läpäisystä, sitä ei tallenneta erikseen.
 
@@ -24,6 +25,11 @@ const LEVELS := [
 	},
 ]
 
+## Tallennuspolut muuttujina, jotta testit voivat ohjata tallennuksen väliaikaiseen tiedostoon.
+var save_path: String = SAVE_PATH
+var temp_path: String = TEMP_PATH
+var corrupt_path: String = CORRUPT_PATH
+
 ## Varoitus viimeisimmästä latauksesta. Tyhjä, jos kaikki meni hyvin.
 var load_warning: String = ""
 
@@ -42,10 +48,10 @@ func load_game() -> void:
 	_read_only = false
 	load_warning = ""
 
-	if not FileAccess.file_exists(SAVE_PATH):
+	if not FileAccess.file_exists(save_path):
 		return
 
-	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	var file := FileAccess.open(save_path, FileAccess.READ)
 
 	if file == null:
 		# Tiedosto on olemassa, mutta sitä ei voi lukea: älä kirjoita sen päälle.
@@ -68,6 +74,12 @@ func load_game() -> void:
 		_warn("Tallennus on tehty uudemmalla pelin versiolla. Edistymistä ei tallenneta tällä kertaa.")
 		return
 
+	# Vanhoissa tallennuksissa random_mode puuttuu, jolloin käytetään oletusarvoja.
+	var random_mode: Variant = parsed.get("random_mode", {})
+
+	if typeof(random_mode) == TYPE_DICTIONARY:
+		_data["random_mode"] = _sanitize_random_mode(random_mode)
+
 	var levels: Variant = parsed.get("levels", {})
 
 	if typeof(levels) != TYPE_DICTIONARY:
@@ -85,7 +97,7 @@ func save_game() -> bool:
 		return false
 
 	# Kirjoitetaan ensin väliaikaiseen tiedostoon, ettei keskeytynyt kirjoitus riko tallennusta.
-	var file := FileAccess.open(TEMP_PATH, FileAccess.WRITE)
+	var file := FileAccess.open(temp_path, FileAccess.WRITE)
 
 	if file == null:
 		push_error("SaveManager: tallennus epäonnistui, virhekoodi: %d" % FileAccess.get_open_error())
@@ -98,7 +110,7 @@ func save_game() -> bool:
 		push_error("SaveManager: tallennustiedoston kirjoittaminen epäonnistui.")
 		return false
 
-	var error := DirAccess.rename_absolute(TEMP_PATH, SAVE_PATH)
+	var error := DirAccess.rename_absolute(temp_path, save_path)
 
 	if error != OK:
 		push_error("SaveManager: tallennustiedoston korvaaminen epäonnistui, virhekoodi: %d" % error)
@@ -135,6 +147,21 @@ func update_level_record(level_id: String, score: int, stars: int) -> Dictionary
 	result["saved"] = save_game()
 
 	return result
+
+
+## Päivittää satunnaisen pelimuodon parhaan putken. Huonompi putki ei koskaan korvaa parempaa.
+## Palauttaa true, jos putki on uusi ennätys.
+func update_best_streak(streak: int) -> bool:
+	if streak <= get_best_streak():
+		return false
+
+	_data["random_mode"]["best_streak"] = streak
+	save_game()
+	return true
+
+
+func get_best_streak() -> int:
+	return _data["random_mode"]["best_streak"]
 
 
 func get_level_data(level_id: String) -> Dictionary:
@@ -214,6 +241,13 @@ func _default_data() -> Dictionary:
 	return {
 		"version": SAVE_VERSION,
 		"levels": {},
+		"random_mode": _default_random_mode(),
+	}
+
+
+func _default_random_mode() -> Dictionary:
+	return {
+		"best_streak": 0,
 	}
 
 
@@ -237,20 +271,28 @@ func _sanitize_record(raw: Dictionary) -> Dictionary:
 	}
 
 
+func _sanitize_random_mode(raw: Dictionary) -> Dictionary:
+	var best: Variant = raw.get("best_streak")
+
+	return {
+		"best_streak": maxi(int(best), 0) if _is_number(best) else 0,
+	}
+
+
 func _is_number(value: Variant) -> bool:
 	return typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT
 
 
 # Rikkinäinen tiedosto kopioidaan talteen ennen kuin uusi tallennus voi korvata sen.
 func _backup_corrupt_file() -> void:
-	var error := DirAccess.copy_absolute(SAVE_PATH, CORRUPT_PATH)
+	var error := DirAccess.copy_absolute(save_path, corrupt_path)
 
 	if error != OK:
 		_read_only = true
 		_warn("Tallennus on vioittunut, eikä sitä voitu varmuuskopioida. Edistymistä ei tallenneta tällä kertaa.")
 		return
 
-	_warn("Tallennus oli vioittunut, joten aloitetaan alusta. Vanha tiedosto: %s" % CORRUPT_PATH)
+	_warn("Tallennus oli vioittunut, joten aloitetaan alusta. Vanha tiedosto: %s" % corrupt_path)
 
 
 func _warn(message: String) -> void:
