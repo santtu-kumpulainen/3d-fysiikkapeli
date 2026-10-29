@@ -3,41 +3,9 @@
 [ext_resource type="Script" uid="uid://bkc6llry8sdku" path="res://scenes/root.gd" id="1_pbc48"]
 [ext_resource type="PackedScene" uid="uid://b7yy3xi4c0r27" path="res://scenes/projectile.tscn" id="2_eqxsl"]
 [ext_resource type="PackedScene" uid="uid://ddibfshvvympk" path="res://scenes/box.tscn" id="3_b4j7a"]
-[ext_resource type="Shader" uid="uid://cwsyg2xub2mur" path="res://assets/sky/stylized_sky.gdshader" id="3_l37oo"]
-[ext_resource type="Texture2D" uid="uid://dvuwb0yce4sb7" path="res://assets/sky/assets/shooting_star_sampler.png" id="4_qpwj6"]
+[ext_resource type="PackedScene" path="res://scenes/environment/level_environment.tscn" id="3_lvlenv"]
+[ext_resource type="Material" path="res://assets/environment/ground_material.tres" id="5_ground"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="6_hud"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ibugp"]
-shader = ExtResource("3_l37oo")
-shader_parameter/clouds_samples = 16
-shader_parameter/shadow_sample = 4
-shader_parameter/clouds_density = 0.5
-shader_parameter/clouds_scale = 1.0
-shader_parameter/clouds_smoothness = 0.035
-shader_parameter/clouds_light_color = Color(0, 0, 0, 1)
-shader_parameter/clouds_shadow_intensity = 1.0
-shader_parameter/high_clouds_density = 0.0
-shader_parameter/top_color = Color(1, 1, 1, 1)
-shader_parameter/bottom_color = Color(1, 1, 1, 1)
-shader_parameter/sun_scatter = Color(1, 1, 1, 1)
-shader_parameter/astro_tint = Color(0, 0, 0, 1)
-shader_parameter/astro_scale = 1.0
-shader_parameter/astro_intensity = 1.0
-shader_parameter/stars_intensity = 0.70000001043084
-shader_parameter/shooting_stars_intensity = 0.90000001341108
-shader_parameter/shooting_star_sampler = ExtResource("4_qpwj6")
-shader_parameter/shooting_star_tint = Color(0.32420272, 0.32420275, 0.32420272, 1)
-
-[sub_resource type="Sky" id="Sky_py7em"]
-sky_material = SubResource("ShaderMaterial_ibugp")
-
-[sub_resource type="Environment" id="Environment_8qukl"]
-background_mode = 2
-sky = SubResource("Sky_py7em")
-ambient_light_sky_contribution = 0.9
-volumetric_fog_enabled = true
-volumetric_fog_detail_spread = 2.1435468
-volumetric_fog_sky_affect = 0.635
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_py7em"]
 size = Vector3(20.002, 1, 20)
@@ -49,11 +17,7 @@ size = Vector3(53.161133, 1.0594482, 47.689453)
 script = ExtResource("1_pbc48")
 projectile_scene = ExtResource("2_eqxsl")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1815335512]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.04138, 11.11883, -23.560274)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=883375692]
-environment = SubResource("Environment_8qukl")
+[node name="LevelEnvironment" parent="." instance=ExtResource("3_lvlenv")]
 
 [node name="WorldEdge" type="StaticBody3D" parent="." unique_id=121197124]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -64,7 +28,8 @@ shape = SubResource("BoxShape3D_py7em")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEdge" unique_id=1747503662]
 transform = Transform3D(1, 0, 0, 0, 0.9919796, 0, 0, 0, 1, -9.880425, -1.0447385, -8.546465)
-mesh = SubResource("BoxMesh_t1fed")
+material_override = ExtResource("5_ground")
+mesh =SubResource("BoxMesh_t1fed")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=590611728]
 transform = Transform3D(0.86864924, -0.2477139, 0.42905304, 0, 0.8660254, 0.50000006, -0.49542776, -0.4343246, 0.75227225, -3.1142445, 4.6357255, 8)
