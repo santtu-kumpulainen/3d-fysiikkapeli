@@ -1,0 +1,63 @@
+[gd_resource type="VisualShader" load_steps=11 format=3]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_time"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_speed"]
+parameter_name = "pulse_speed"
+default_value_enabled = true
+default_value = 1.2
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_time_speed"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_sin"]
+function = 0
+
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_remap"]
+default_input_values = [0, 0.0, 1, 0.5, 2, 0.5]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_intensity"]
+parameter_name = "emission_intensity"
+default_value_enabled = true
+default_value = 0.8
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_strength"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_emission"]
+parameter_name = "emission_color"
+default_value_enabled = true
+default_value = Color(1, 0.42, 0.05, 1)
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_emission"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_base"]
+parameter_name = "base_color"
+default_value_enabled = true
+default_value = Color(0.55, 0.32, 0.18, 1)
+
+[resource]
+nodes/fragment/0/position = Vector2(900, 140)
+nodes/fragment/2/node = SubResource("VisualShaderNodeInput_time")
+nodes/fragment/2/position = Vector2(-460, 200)
+nodes/fragment/3/node = SubResource("VisualShaderNodeFloatParameter_speed")
+nodes/fragment/3/position = Vector2(-460, 300)
+nodes/fragment/4/node = SubResource("VisualShaderNodeFloatOp_time_speed")
+nodes/fragment/4/position = Vector2(-180, 220)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_sin")
+nodes/fragment/5/position = Vector2(0, 220)
+nodes/fragment/6/node = SubResource("VisualShaderNodeMultiplyAdd_remap")
+nodes/fragment/6/position = Vector2(180, 220)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_intensity")
+nodes/fragment/7/position = Vector2(180, 400)
+nodes/fragment/8/node = SubResource("VisualShaderNodeFloatOp_strength")
+nodes/fragment/8/position = Vector2(420, 260)
+nodes/fragment/9/node = SubResource("VisualShaderNodeColorParameter_emission")
+nodes/fragment/9/position = Vector2(420, 60)
+nodes/fragment/10/node = SubResource("VisualShaderNodeVectorOp_emission")
+nodes/fragment/10/position = Vector2(660, 160)
+nodes/fragment/11/node = SubResource("VisualShaderNodeColorParameter_base")
+nodes/fragment/11/position = Vector2(660, -40)
+nodes/fragment/connections = PackedInt32Array(2, 0, 4, 0, 3, 0, 4, 1, 4, 0, 5, 0, 5, 0, 6, 0, 6, 0, 8, 0, 7, 0, 8, 1, 9, 0, 10, 0, 8, 0, 10, 1, 10, 0, 0, 5, 11, 0, 0, 0)
