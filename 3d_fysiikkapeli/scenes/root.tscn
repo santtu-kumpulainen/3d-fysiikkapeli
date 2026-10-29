@@ -28,6 +28,7 @@ script = ExtResource("1_twpsu")
 projectile_scene = ExtResource("2_twpsu")
 
 [node name="LevelEnvironment" parent="." unique_id=1038397701 instance=ExtResource("3_lvlenv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.916873, 0, -9.681379)
 
 [node name="WorldEdge" type="StaticBody3D" parent="." unique_id=121197124]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
