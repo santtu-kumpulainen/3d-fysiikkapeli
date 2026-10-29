@@ -6,24 +6,20 @@ extends Node3D
 @export var mouse_sensitivity: float = 0.002
 
 @onready var camera: Camera3D = $Camera3D
-@onready var ammo_label: Label = $CanvasLayer/AmmoLabel
-@onready var victory_label: Label = $CanvasLayer/Message
-@onready var score_label: Label = $CanvasLayer/ScoreLabel
-@onready var timer_label: Label = $CanvasLayer/TimerLabel
-@onready var crosshair: Label = $CanvasLayer/Crosshair
-@onready var force_label: Label = $CanvasLayer/ForceLabel
-@onready var controls_label: Label = $CanvasLayer/ControlsLabel
-@onready var retry_button: Button = find_child("RetryButton", true, false) as Button
-@onready var menu_button: Button = find_child("MenuButton", true, false) as Button
+@onready var hud: GameHUD = $HUD
 
 
 
 const MENU_SCENE := "res://scenes/main_menu.tscn"
 
+## Pienin kaatumisprosentti, jolla kenttä läpäistään (yksi tähti).
+const COMPLETION_PERCENT := 65
+
 var time_left: float = 60.0
 var ammo_left: int = 5
 var game_over: bool = false
 var camera_pitch: float = 0.0
+var level_id: String = ""
 
 var normal_fov: float = 75.0
 var zoom_fov: float = 40.0
@@ -47,79 +43,36 @@ var camera_base_position: Vector3
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-	ammo_label.text = "Ammuksia: " + str(ammo_left)
-	victory_label.hide()
+	level_id = SaveManager.get_level_id_for_scene(scene_file_path)
+
+	if level_id.is_empty():
+		push_warning("Kenttää ei löydy SaveManagerin listasta, tulosta ei tallenneta: " + scene_file_path)
+
+	hud.set_ammo(ammo_left)
 	update_score()
 
 	for box in get_tree().get_nodes_in_group("tower_boxes"):
 		if box.has_signal("toppled"):
 			box.toppled.connect(_on_box_toppled)
 
-	timer_label.text = "Aikaa: %d" % ceili(time_left)
+	hud.set_time(time_left)
 
 	normal_fov = camera.fov
 	camera.fov = normal_fov
 
 	# Lopetusvalikon painikkeet
-	if retry_button != null:
-		retry_button.hide()
-		retry_button.disabled = false
-		retry_button.mouse_filter = Control.MOUSE_FILTER_STOP
+	hud.retry_requested.connect(_on_retry_pressed)
+	hud.next_requested.connect(_on_next_pressed)
+	hud.menu_requested.connect(_on_menu_pressed)
 
-		if not retry_button.pressed.is_connected(_on_retry_pressed):
-			retry_button.pressed.connect(_on_retry_pressed)
-	else:
-		push_error("RetryButton puuttuu Root-scenestä.")
-
-	if menu_button != null:
-		menu_button.hide()
-		menu_button.disabled = false
-		menu_button.mouse_filter = Control.MOUSE_FILTER_STOP
-
-		if not menu_button.pressed.is_connected(_on_menu_pressed):
-			menu_button.pressed.connect(_on_menu_pressed)
-	else:
-		push_error("MenuButton puuttuu Root-scenestä.")
-
-	# Tähtäin
-	crosshair.show()
-	crosshair.set_anchors_preset(Control.PRESET_CENTER)
-	crosshair.offset_left = -15
-	crosshair.offset_top = -20
-	crosshair.offset_right = 15
-	crosshair.offset_bottom = 20
-	crosshair.text = "+"
-	crosshair.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	crosshair.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	crosshair.z_index = 10
-
-	# Voimanäyttö
-	force_label.show()
-	force_label.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	force_label.offset_left = 20
-	force_label.offset_top = -45
-	force_label.offset_right = 220
-	force_label.offset_bottom = -15
-	force_label.z_index = 10
 	update_force_label()
 
-	# Ohjeet
-	controls_label.show()
-	controls_label.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	controls_label.offset_left = -240
-	controls_label.offset_top = -100
-	controls_label.offset_right = -20
-	controls_label.offset_bottom = -20
-	controls_label.text = "SPACE - Zoomaus\n- - Vähennä voimaa\n+ - Lisää voimaa"
-	controls_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	controls_label.z_index = 10
-	
 	camera_base_position = camera.position
 
 
 
 func update_force_label() -> void:
-	force_label.text = "Voima: " + str(int(force))
+	hud.set_force(force)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -177,7 +130,7 @@ func shoot() -> void:
 
 	ammo_left -= 1
 	apply_recoil()
-	ammo_label.text = "Ammuksia: " + str(ammo_left)
+	hud.set_ammo(ammo_left)
 
 	var projectile = projectile_scene.instantiate() as RigidBody3D
 	get_tree().current_scene.add_child(projectile)
@@ -190,7 +143,7 @@ func shoot() -> void:
 	if ammo_left == 0:
 		await get_tree().create_timer(5.0).timeout
 		if not game_over:
-			end_game(false)
+			end_game()
 
 
 func count_fallen_boxes() -> int:
@@ -219,19 +172,18 @@ func get_fallen_percentage() -> int:
 
 
 func update_score() -> void:
-	var percentage = get_fallen_percentage()
-	score_label.text = "Kaatuneet: %d%% / 100%%" % percentage
+	hud.set_score(get_fallen_percentage())
 
-## star rating
-func get_star_rating(percentage: int) -> String:
+## star rating: 0 tähteä tarkoittaa, ettei kenttää läpäisty.
+func get_star_rating(percentage: int) -> int:
 	if percentage >= 100:
-		return "★★★"
+		return 3
 	elif percentage >= 80:
-		return "★★"
-	elif percentage >= 65:
-		return "★"
+		return 2
+	elif percentage >= COMPLETION_PERCENT:
+		return 1
 	else:
-		return "Ei tähtiä"
+		return 0
 
 
 func _process(delta: float) -> void:
@@ -273,27 +225,29 @@ func _process(delta: float) -> void:
 
 	# Voitto, kun kaikki palikat ovat kaatuneet.
 	if get_fallen_percentage() >= 100:
-		end_game(true)
+		end_game()
 		return
 
 	# Päivitä ajastin.
 	time_left = maxf(time_left - delta, 0.0)
-	timer_label.text = "Aikaa: %d" % ceili(time_left)
+	hud.set_time(time_left)
 
 	if time_left <= 0.0:
-		end_game(false)
+		end_game()
 
 
 
 	time_left = maxf(time_left - delta, 0.0)
-	timer_label.text = "Aikaa: %d" % ceili(time_left)
+	hud.set_time(time_left)
 
 	if time_left <= 0.0:
-		end_game(false)
+		end_game()
 
 
 
-func end_game(won: bool) -> void:
+## Kierroksen loppu. Läpäisy ratkeaa tähtien perusteella riippumatta siitä,
+## loppuiko kierros aikaan, ammuksiin vai kaikkien palikoiden kaatumiseen.
+func end_game() -> void:
 	if game_over:
 		return
 
@@ -301,26 +255,25 @@ func end_game(won: bool) -> void:
 
 	var percentage := get_fallen_percentage()
 	var stars := get_star_rating(percentage)
+	var completed := stars > 0
+	var new_record := false
 
-	if won:
-		victory_label.text = "Voitit!\nKaatuneet: %d%%\nTähdet: %s" % [
-			percentage,
-			stars
-		]
-	else:
-		victory_label.text = "Peli päättyi!\nKaatuneet: %d%%\nTähdet: %s" % [
-			percentage,
-			stars
-		]
+	if completed and not level_id.is_empty():
+		var result := SaveManager.update_level_record(level_id, percentage, stars)
+		new_record = result["new_best_score"] or result["new_best_stars"]
 
-	victory_label.text += "\nValitse alta uusi yritys tai palaa valikkoon."
-	victory_label.show()
+	var next_id := SaveManager.get_next_level_id(level_id)
+	var has_next := not next_id.is_empty() and SaveManager.is_level_unlocked(next_id)
 
-	if retry_button != null:
-		retry_button.show()
-
-	if menu_button != null:
-		menu_button.show()
+	hud.show_result(
+		completed,
+		percentage,
+		stars,
+		COMPLETION_PERCENT,
+		SaveManager.get_level_data(level_id),
+		new_record,
+		has_next
+	)
 
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
@@ -338,7 +291,7 @@ func _on_box_toppled(block: RigidBody3D) -> void:
 			pass
 		1:
 			ammo_left += 2
-			ammo_label.text = "Ammuksia: " + str(ammo_left)
+			hud.set_ammo(ammo_left)
 		2:
 			explode(block)
 
@@ -420,6 +373,15 @@ func apply_camera_shake(strength: float = 0.12) -> void:
 func _on_retry_pressed() -> void:
 	print("Yritä uudelleen painettu")
 	get_tree().reload_current_scene()
+
+
+func _on_next_pressed() -> void:
+	var next_id := SaveManager.get_next_level_id(level_id)
+
+	if next_id.is_empty() or not SaveManager.is_level_unlocked(next_id):
+		return
+
+	get_tree().change_scene_to_file(SaveManager.get_level_path(next_id))
 
 
 
