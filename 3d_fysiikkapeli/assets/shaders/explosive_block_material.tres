@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/explosive_block.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" uid="uid://bgmbu1mdd3t40" path="res://assets/models/crate_0.png" id="2_crate"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dissolve"]
+frequency = 0.08
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_dissolve"]
+width = 64
+height = 64
+depth = 64
+seamless = true
+noise = SubResource("FastNoiseLite_dissolve")
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/albedo_texture = ExtResource("2_crate")
+shader_parameter/dissolve_noise = SubResource("NoiseTexture3D_dissolve")

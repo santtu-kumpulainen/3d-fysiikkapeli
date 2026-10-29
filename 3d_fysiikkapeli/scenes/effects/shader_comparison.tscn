@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/environment/level_environment.tscn" id="1_env"]
+[ext_resource type="PackedScene" uid="uid://ddibfshvvympk" path="res://scenes/box.tscn" id="2_box"]
+[ext_resource type="Material" path="res://assets/shaders/explosive_pulse_visual_material.tres" id="3_visual"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_visual"]
+size = Vector3(1.2, 2.16, 1.2)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+size = Vector2(12, 12)
+
+[node name="ShaderComparison" type="Node3D"]
+
+[node name="LevelEnvironment" parent="." instance=ExtResource("1_env")]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="CodeShaderBlock" parent="." instance=ExtResource("2_box")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 0, -1)
+freeze = true
+block_type = 2
+
+[node name="CodeShaderLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 2.6, 0)
+billboard = 1
+text = "Koodi-shader (.gdshader)"
+font_size = 32
+outline_size = 12
+
+[node name="VisualShaderBlock" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 1.08, 0)
+material_override = ExtResource("3_visual")
+mesh = SubResource("BoxMesh_visual")
+
+[node name="VisualShaderLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 2.6, 0)
+billboard = 1
+text = "Visual Shader"
+font_size = 32
+outline_size = 12
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.97, 0.243, 0, -0.243, 0.97, 0, 2.2, 5.5)
+current = true

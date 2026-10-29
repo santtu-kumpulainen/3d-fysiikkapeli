@@ -331,6 +331,10 @@ func explode(block: RigidBody3D) -> void:
 				direction.normalized() * explosion_force
 			)
 
+	# Palikka liukenee pois; räjähdysefekti jatkuu siitä riippumatta.
+	if block.has_method("start_dissolve"):
+		block.start_dissolve()
+
 func apply_recoil() -> void:
 	recoil_fov_offset = recoil_fov
 
