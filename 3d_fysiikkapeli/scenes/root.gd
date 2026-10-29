@@ -19,6 +19,7 @@ extends Node3D
 
 
 const MENU_SCENE := "res://scenes/main_menu.tscn"
+const EXPLOSION_VFX := preload("res://scenes/effects/explosion_vfx.tscn")
 
 var time_left: float = 60.0
 var ammo_left: int = 5
@@ -344,29 +345,18 @@ func _on_box_toppled(block: RigidBody3D) -> void:
 
 ## explode
 func explode(block: RigidBody3D) -> void:
-	
+
 	apply_camera_shake(0.55)
-	
-	var particles := block.get_node_or_null("ExplosionParticles") as GPUParticles3D
 
-	# Montako partikkelia piirretään
-	if particles != null:
-		particles.emitting = false
-		particles.restart()
-		particles.emitting = true
-		print("Partikkeleta: ", particles.amount)
-	else:
-		print("ExplosionParticles puuttuu: ", block.name)
-	
+	# Efekti lisätään Rootin lapseksi, jotta se ei riipu palikan elinkaaresta.
+	# Palikan mesh on siirretty (1, 1, 1), joten käytetään meshin keskipistettä.
+	var vfx := EXPLOSION_VFX.instantiate() as Node3D
+	add_child(vfx)
+	var mesh := block.get_node_or_null("MeshInstance3D") as Node3D
+	vfx.global_position = mesh.global_position if mesh != null else block.global_position
+
 	var explosion_radius: float = 4.0
-	var explosion_force: float = 4.0
-
-	# Toimiiko node
-	if particles != null:
-		particles.restart()
-		particles.emitting = true
-	else:
-		print("Palikasta puuttuu ExplosionParticles: ", block.name)
+	var explosion_force: float = 8.0
 
 	# Työnnä lähellä olevia palikoita.
 	for other in get_tree().get_nodes_in_group("tower_boxes"):
@@ -382,28 +372,6 @@ func explode(block: RigidBody3D) -> void:
 			var direction: Vector3 = (
 				other.global_position - block.global_position
 			).normalized()
-
-			direction.y += 0.5
-			other.apply_central_impulse(
-				direction.normalized() * explosion_force
-			)
-
-
-
-	# Työnnä lähellä olevia palikoita.
-	for other in get_tree().get_nodes_in_group("tower_boxes"):
-		if other == block:
-			continue
-
-		if not other is RigidBody3D:
-			continue
-
-		var distance := block.global_position.distance_to(other.global_position)
-
-		if distance <= explosion_radius:
-			var direction: Vector3 = (
-	other.global_position - block.global_position
-).normalized()
 
 			direction.y += 0.5
 			other.apply_central_impulse(
