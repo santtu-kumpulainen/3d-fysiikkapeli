@@ -11,12 +11,16 @@ signal menu_requested
 @onready var ammo_label: Label = %AmmoLabel
 @onready var timer_label: Label = %TimerLabel
 @onready var score_label: Label = %ScoreLabel
+@onready var streak_label: Label = %StreakLabel
+@onready var random_info_panel: Control = %RandomInfoPanel
+@onready var random_info_label: Label = %RandomInfoLabel
 @onready var force_label: Label = %ForceLabel
 @onready var crosshair: Label = %Crosshair
 @onready var result_overlay: Control = %ResultOverlay
 @onready var result_title: Label = %ResultTitle
 @onready var result_score: Label = %ResultScore
 @onready var result_stars: Label = %ResultStars
+@onready var result_streak: Label = %ResultStreak
 @onready var result_best: Label = %ResultBest
 @onready var result_record: Label = %ResultRecord
 @onready var result_hint: Label = %ResultHint
@@ -47,6 +51,51 @@ func set_score(percentage: int) -> void:
 
 func set_force(force: float) -> void:
 	force_label.text = "Voima: %d" % int(force)
+
+
+## Satunnaisen pelimuodon tiedot: putki yläpalkkiin, siemen ja palikkamäärä sen alle.
+func set_random_info(seed_value: int, block_count: int, streak: int) -> void:
+	streak_label.text = "Putki: %d kenttää" % streak
+	streak_label.show()
+	random_info_label.text = "Siemen: %d · %d palikkaa" % [seed_value, block_count]
+	random_info_panel.show()
+
+
+## Satunnaisen pelimuodon tulosruutu: tähtien sijaan putki ja ennätys.
+func show_random_result(
+	completed: bool,
+	percentage: int,
+	required_percentage: int,
+	streak: int,
+	best_streak: int,
+	new_record: bool,
+	seed_value: int
+) -> void:
+	crosshair.hide()
+
+	result_title.text = "Kenttä läpäisty!" if completed else "Putki päättyi"
+	result_score.text = "Kaatuneet: %d %%" % percentage
+	result_stars.hide()
+
+	result_streak.text = "Putki: %d kenttää" % streak
+	result_streak.show()
+	result_record.visible = new_record
+	result_best.text = "Ennätys: %d kenttää" % best_streak
+
+	if completed:
+		result_hint.text = "Siemen: %d" % seed_value
+	else:
+		result_hint.text = "Läpäisyyn tarvitaan vähintään %d %%.\nSiemen: %d\nR - Yritä uudelleen" % [
+			required_percentage,
+			seed_value
+		]
+
+	# Läpäistyä kenttää ei voi pelata uudelleen, jotta putkea ei voi kasvattaa toistamalla.
+	retry_button.visible = not completed
+	next_button.text = "Seuraava satunnaiskenttä"
+	next_button.visible = completed
+
+	result_overlay.show()
 
 
 ## Näyttää tulosruudun. record on SaveManager.get_level_data()-muotoinen sanakirja.

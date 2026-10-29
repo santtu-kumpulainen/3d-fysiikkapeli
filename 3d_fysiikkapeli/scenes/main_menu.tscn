@@ -75,6 +75,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Kentät"
 
+[node name="RandomButton" type="Button" parent="MainPanel/Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Satunnainen pelimuoto"
+
 [node name="QuitButton" type="Button" parent="MainPanel/Panel/Content"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -118,6 +123,71 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="BackButton" type="Button" parent="LevelPanel/Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Takaisin"
+
+[node name="RandomPanel" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="RandomPanel"]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="RandomPanel/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="RandomPanel/Panel/Content"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Satunnainen pelimuoto"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="RandomPanel/Panel/Content"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Läpäise mahdollisimman monta satunnaiskenttää peräkkäin."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="BestStreakLabel" type="Label" parent="RandomPanel/Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ennätys: 0 kenttää"
+horizontal_alignment = 1
+
+[node name="SeedEdit" type="LineEdit" parent="RandomPanel/Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Siemen (valinnainen)"
+max_length = 10
+alignment = 1
+
+[node name="SeedErrorLabel" type="Label" parent="RandomPanel/Panel/Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Siemenen pitää olla kokonaisluku väliltä 0–4294967295."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="StartRandomButton" type="Button" parent="RandomPanel/Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Aloita"
+
+[node name="RandomBackButton" type="Button" parent="RandomPanel/Panel/Content"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Takaisin"
