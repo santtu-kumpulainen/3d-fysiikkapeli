@@ -1,0 +1,199 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="TopBar" type="PanelContainer" parent="."]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = -16.0
+offset_bottom = 56.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="Row" type="HBoxContainer" parent="TopBar"]
+layout_mode = 2
+
+[node name="AmmoLabel" type="Label" parent="TopBar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ammuksia: 0"
+
+[node name="TimerLabel" type="Label" parent="TopBar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Aikaa: 0"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="TopBar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Kaatuneet: 0 %"
+horizontal_alignment = 2
+
+[node name="Crosshair" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -24.0
+offset_right = 20.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CrosshairLabel"
+text = "+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ForcePanel" type="PanelContainer" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -56.0
+offset_right = 176.0
+offset_bottom = -16.0
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="ForceLabel" type="Label" parent="ForcePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Voima: 0"
+
+[node name="ControlsPanel" type="PanelContainer" parent="."]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -236.0
+offset_top = -112.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="ControlsLabel" type="Label" parent="ControlsPanel"]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "SPACE - Zoomaus
+- - Vähennä voimaa
++ - Lisää voimaa"
+horizontal_alignment = 2
+
+[node name="ResultOverlay" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Center" type="CenterContainer" parent="ResultOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResultPanel" type="PanelContainer" parent="ResultOverlay/Center"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="ResultOverlay/Center/ResultPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ResultTitle" type="Label" parent="ResultOverlay/Center/ResultPanel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Kenttä läpäisty!"
+horizontal_alignment = 1
+
+[node name="ResultScore" type="Label" parent="ResultOverlay/Center/ResultPanel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Kaatuneet: 0 %"
+horizontal_alignment = 1
+
+[node name="ResultStars" type="Label" parent="ResultOverlay/Center/ResultPanel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"StarsLabel"
+text = "☆☆☆"
+horizontal_alignment = 1
+
+[node name="ResultRecord" type="Label" parent="ResultOverlay/Center/ResultPanel/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"RecordLabel"
+text = "Uusi ennätys!"
+horizontal_alignment = 1
+
+[node name="ResultBest" type="Label" parent="ResultOverlay/Center/ResultPanel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Ei vielä läpäisyä"
+horizontal_alignment = 1
+
+[node name="ResultHint" type="Label" parent="ResultOverlay/Center/ResultPanel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "R - Yritä uudelleen"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="ResultOverlay/Center/ResultPanel/Content"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Buttons" type="HBoxContainer" parent="ResultOverlay/Center/ResultPanel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="RetryButton" type="Button" parent="ResultOverlay/Center/ResultPanel/Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Yritä uudelleen"
+
+[node name="NextButton" type="Button" parent="ResultOverlay/Center/ResultPanel/Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Seuraava kenttä"
+
+[node name="MenuButton" type="Button" parent="ResultOverlay/Center/ResultPanel/Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Valikko"
