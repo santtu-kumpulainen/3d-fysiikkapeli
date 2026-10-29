@@ -1,0 +1,4 @@
+fire_explosion.png and white_puff.png (256 px set) are copied unmodified from assets/explosive/sheets/.
+
+Explosion FX Free by heyheythere - https://heyheythere.itch.io/explosion-fx-free - CC BY 4.0
+License: https://creativecommons.org/licenses/by/4.0/
