@@ -291,9 +291,19 @@ func _on_box_toppled(block: RigidBody3D) -> void:
 
 ## explosive
 func explode(block: RigidBody3D) -> void:
-	var explosion_radius := 4.0
-	var explosion_force := 5.0
+	var explosion_radius: float = 4.0
+	var explosion_force: float = 4.0
 
+	# Käynnistä räjähtävän palikan oma partikkeliefekti.
+	var particles := block.get_node_or_null("ExplosionParticles") as GPUParticles3D
+
+	if particles != null:
+		particles.restart()
+		particles.emitting = true
+	else:
+		print("Palikasta puuttuu ExplosionParticles: ", block.name)
+
+	# Työnnä lähellä olevia palikoita.
 	for other in get_tree().get_nodes_in_group("tower_boxes"):
 		if other == block:
 			continue
@@ -301,14 +311,39 @@ func explode(block: RigidBody3D) -> void:
 		if not other is RigidBody3D:
 			continue
 
-		var distance = block.global_position.distance_to(other.global_position)
+		var distance: float = block.global_position.distance_to(other.global_position)
 
 		if distance <= explosion_radius:
-			var direction = (other.global_position - block.global_position).normalized()
+			var direction: Vector3 = (
+				other.global_position - block.global_position
+			).normalized()
+
 			direction.y += 0.5
-			other.apply_central_impulse(direction.normalized() * explosion_force)
+			other.apply_central_impulse(
+				direction.normalized() * explosion_force
+			)
 
 
+
+	# Työnnä lähellä olevia palikoita.
+	for other in get_tree().get_nodes_in_group("tower_boxes"):
+		if other == block:
+			continue
+
+		if not other is RigidBody3D:
+			continue
+
+		var distance := block.global_position.distance_to(other.global_position)
+
+		if distance <= explosion_radius:
+			var direction: Vector3 = (
+	other.global_position - block.global_position
+).normalized()
+
+			direction.y += 0.5
+			other.apply_central_impulse(
+				direction.normalized() * explosion_force
+			)
 
 
 func _on_retry_pressed() -> void:

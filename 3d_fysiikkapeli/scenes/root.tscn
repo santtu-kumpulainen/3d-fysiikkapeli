@@ -47,13 +47,24 @@ size = Vector3(20.002, 1, 20)
 [sub_resource type="BoxMesh" id="BoxMesh_t1fed"]
 size = Vector3(53.161133, 1.0594482, 47.689453)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j287u"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2ln5"]
+albedo_color = Color(0.8727058, 1.853034e-06, 1.6364455e-06, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_5sfjl"]
+material = SubResource("StandardMaterial3D_c2ln5")
+radius = 0.15
+height = 0.15
+
 [node name="Root" type="Node3D" unique_id=109334602]
 script = ExtResource("1_twpsu")
 projectile_scene = ExtResource("2_twpsu")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1815335512]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.04138, 11.11883, -23.560274)
-light_color = Color(0.7114005, 0.6279816, 0.37595296, 1)
+light_color = Color(0.27301332, 0.24185722, 0.2393275, 1)
+light_energy = 1.29
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1157148032]
@@ -67,7 +78,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.012484, -1.0447385, -2.643
 shape = SubResource("BoxShape3D_py7em")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEdge" unique_id=1747503662]
-transform = Transform3D(1, 0, 0, 0, 0.9919796, 0, 0, 0, 1, -9.880425, -1.0447385, -8.546465)
+transform = Transform3D(1, 0, 0, 0, 0.9919796, 0, 0, 0, 1, -9.863778, -1.0195844, -8.636915)
 material_override = ExtResource("5_kycxp")
 material_overlay = SubResource("StandardMaterial3D_sqa0i")
 mesh = SubResource("BoxMesh_t1fed")
@@ -82,6 +93,10 @@ transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.973
 
 [node name="Box2e" parent="Boxes" unique_id=574468394 instance=ExtResource("1_j5px3")]
 transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -7.3391075, 0, -0.33353442)
+block_type = 2
+
+[node name="Box2e2" parent="Boxes" unique_id=1632815647 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -8.840782, 0, 4.120597)
 block_type = 2
 
 [node name="Box3" parent="Boxes" unique_id=1697580399 instance=ExtResource("1_j5px3")]
@@ -119,6 +134,14 @@ transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.973
 
 [node name="Box14ba" parent="Boxes" unique_id=1024183041 instance=ExtResource("1_j5px3")]
 transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.55695, 5.995189, 0.05393505)
+block_type = 1
+
+[node name="Box14ba2" parent="Boxes" unique_id=1726532930 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -22.276123, -0.00481081, -11.782108)
+block_type = 1
+
+[node name="Box14ba3" parent="Boxes" unique_id=1861949240 instance=ExtResource("1_j5px3")]
+transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -22.276123, 1.9951892, -11.782108)
 block_type = 1
 
 [node name="Box15" parent="Boxes" unique_id=774248924 instance=ExtResource("1_j5px3")]
@@ -214,3 +237,16 @@ text = "yritä uudelleen"
 [node name="MenuButton" type="Button" parent="CanvasLayer/CenterContainer2/VBoxContainer" unique_id=2068968793]
 layout_mode = 2
 text = "Aloitusvalikkoon"
+
+[node name="Effects" type="Node" parent="." unique_id=755067295]
+
+[node name="ExplosionParticles" type="GPUParticles3D" parent="Effects" unique_id=527057639]
+emitting = false
+amount = 100
+lifetime = 1.33
+one_shot = true
+explosiveness = 1.0
+randomness = 0.33
+trail_lifetime = 0.99
+process_material = SubResource("ParticleProcessMaterial_j287u")
+draw_pass_1 = SubResource("SphereMesh_5sfjl")
