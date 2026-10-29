@@ -2,33 +2,122 @@
 
 [ext_resource type="Script" uid="uid://brqdww3mxrkwp" path="res://scripts/main_menu.gd" id="1_l6cm7"]
 
+[sub_resource type="Gradient" id="Gradient_background"]
+offsets = PackedFloat32Array(0, 0.65, 1)
+colors = PackedColorArray(0.05, 0.06, 0.12, 1, 0.1, 0.09, 0.2, 1, 0.32, 0.15, 0.08, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_background"]
+gradient = SubResource("Gradient_background")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
 [node name="MainMenu" type="Control" unique_id=1137944419]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_l6cm7")
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1970344509]
-layout_mode = 0
-offset_right = 1155.0
-offset_bottom = 646.0
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_background")
+expand_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1313633526]
-layout_mode = 2
-alignment = 1
+[node name="MainPanel" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=184797071]
+[node name="Panel" type="PanelContainer" parent="MainPanel"]
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="MainPanel/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="MainPanel/Panel/Content"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
 text = "TORNIN KAATUMIS PELI"
+horizontal_alignment = 1
 
-[node name="LevelOption" type="OptionButton" parent="CenterContainer/VBoxContainer" unique_id=1662069350]
+[node name="SubtitleLabel" type="Label" parent="MainPanel/Panel/Content"]
 layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Kaada tornit ja kerää tähtiä"
+horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1557800358]
+[node name="Spacer" type="Control" parent="MainPanel/Panel/Content"]
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
-text = "ALOITA"
+mouse_filter = 2
 
-[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1842822651]
+[node name="PlayButton" type="Button" parent="MainPanel/Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Pelaa"
+
+[node name="LevelsButton" type="Button" parent="MainPanel/Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Kentät"
+
+[node name="QuitButton" type="Button" parent="MainPanel/Panel/Content"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Lopeta"
+
+[node name="NoticeLabel" type="Label" parent="MainPanel/Panel/Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="LevelPanel" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="LevelPanel"]
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="LevelPanel/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="LevelPanel/Panel/Content"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Valitse kenttä"
+horizontal_alignment = 1
+
+[node name="LevelList" type="VBoxContainer" parent="LevelPanel/Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BackButton" type="Button" parent="LevelPanel/Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Takaisin"
