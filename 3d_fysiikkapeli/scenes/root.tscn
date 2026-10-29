@@ -136,14 +136,6 @@ transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.973
 transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.55695, 5.995189, 0.05393505)
 block_type = 1
 
-[node name="Box14ba2" parent="Boxes" unique_id=1726532930 instance=ExtResource("1_j5px3")]
-transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -22.276123, -0.00481081, -11.782108)
-block_type = 1
-
-[node name="Box14ba3" parent="Boxes" unique_id=1861949240 instance=ExtResource("1_j5px3")]
-transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -22.276123, 1.9951892, -11.782108)
-block_type = 1
-
 [node name="Box15" parent="Boxes" unique_id=774248924 instance=ExtResource("1_j5px3")]
 transform = Transform3D(0.9737444, 0, -0.22764426, 0, 1, 0, 0.22764426, 0, 0.9737444, -5.0263605, 3.980349, -1.0415335)
 

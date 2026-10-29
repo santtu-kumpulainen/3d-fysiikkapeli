@@ -1,0 +1,178 @@
+{
+ "effects": [
+  {
+   "name": "fire_explosion",
+   "element": "fire",
+   "shape": "explosion",
+   "anchor": [
+    0.5,
+    0.55
+   ],
+   "frames": 32,
+   "fps": 30,
+   "loop": false,
+   "columns": 8,
+   "rows": 4,
+   "cell": {
+    "256": [
+     256,
+     256
+    ],
+    "128": [
+     128,
+     128
+    ],
+    "pixel": [
+     64,
+     64
+    ]
+   },
+   "file": "fire/fire_explosion.png"
+  },
+  {
+   "name": "fire_blast",
+   "element": "fire",
+   "shape": "blast",
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "frames": 16,
+   "fps": 30,
+   "loop": false,
+   "columns": 8,
+   "rows": 2,
+   "cell": {
+    "256": [
+     256,
+     256
+    ],
+    "128": [
+     128,
+     128
+    ],
+    "pixel": [
+     64,
+     64
+    ]
+   },
+   "file": "fire/fire_blast.png"
+  },
+  {
+   "name": "fire_muzzle",
+   "element": "fire",
+   "shape": "muzzle",
+   "anchor": [
+    0.075,
+    0.5
+   ],
+   "frames": 8,
+   "fps": 30,
+   "loop": false,
+   "columns": 8,
+   "rows": 1,
+   "cell": {
+    "256": [
+     256,
+     128
+    ],
+    "128": [
+     128,
+     64
+    ],
+    "pixel": [
+     64,
+     32
+    ]
+   },
+   "file": "fire/fire_muzzle.png"
+  },
+  {
+   "name": "fire_fire",
+   "element": "fire",
+   "shape": "fire",
+   "anchor": [
+    0.5,
+    0.92
+   ],
+   "frames": 24,
+   "fps": 24,
+   "loop": true,
+   "columns": 8,
+   "rows": 3,
+   "cell": {
+    "256": [
+     128,
+     256
+    ],
+    "128": [
+     64,
+     128
+    ],
+    "pixel": [
+     32,
+     64
+    ]
+   },
+   "file": "fire/fire_fire.png"
+  },
+  {
+   "name": "fire_smoke",
+   "element": "fire",
+   "shape": "smoke",
+   "anchor": [
+    0.5,
+    0.92
+   ],
+   "frames": 32,
+   "fps": 20,
+   "loop": true,
+   "columns": 8,
+   "rows": 4,
+   "cell": {
+    "256": [
+     128,
+     256
+    ],
+    "128": [
+     64,
+     128
+    ],
+    "pixel": [
+     32,
+     64
+    ]
+   },
+   "file": "fire/fire_smoke.png"
+  },
+  {
+   "name": "white_puff",
+   "element": "white",
+   "shape": "puff",
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "frames": 16,
+   "fps": 30,
+   "loop": false,
+   "columns": 8,
+   "rows": 2,
+   "cell": {
+    "256": [
+     256,
+     256
+    ],
+    "128": [
+     128,
+     128
+    ],
+    "pixel": [
+     64,
+     64
+    ]
+   },
+   "file": "white/white_puff.png"
+  }
+ ]
+}

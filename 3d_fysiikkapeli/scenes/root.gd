@@ -289,14 +289,24 @@ func _on_box_toppled(block: RigidBody3D) -> void:
 		2:
 			explode(block)
 
-## explosive
+## explode
 func explode(block: RigidBody3D) -> void:
+	
+	var particles := block.get_node_or_null("ExplosionParticles") as GPUParticles3D
+
+	# Montako partikkelia piirretään
+	if particles != null:
+		particles.emitting = false
+		particles.restart()
+		particles.emitting = true
+		print("Partikkeleta: ", particles.amount)
+	else:
+		print("ExplosionParticles puuttuu: ", block.name)
+	
 	var explosion_radius: float = 4.0
 	var explosion_force: float = 4.0
 
-	# Käynnistä räjähtävän palikan oma partikkeliefekti.
-	var particles := block.get_node_or_null("ExplosionParticles") as GPUParticles3D
-
+	# Toimiiko node
 	if particles != null:
 		particles.restart()
 		particles.emitting = true

@@ -1,0 +1,22 @@
+; Engine configuration file.
+config_version=5
+
+[application]
+
+config/name="Explosion FX Free"
+run/main_scene="res://addons/explosion_fx/demo/demo.tscn"
+config/features=PackedStringArray("4.3")
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.07, 0.06, 0.11, 1)
+
+[autoload]
+
+FullPack="*res://addons/explosion_fx/demo/full_pack.gd"
