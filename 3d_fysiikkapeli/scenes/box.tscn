@@ -21,11 +21,12 @@ initial_velocity_max = 8.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ks2v0"]
 albedo_color = Color(0.8727058, 1.853034e-06, 1.6364455e-06, 1)
+grow_amount = -0.96
 
 [sub_resource type="SphereMesh" id="SphereMesh_t1fed"]
 material = SubResource("StandardMaterial3D_ks2v0")
-radius = 0.15
-height = 0.15
+radius = 0.1
+height = 0.1
 
 [node name="Box" type="RigidBody3D" unique_id=1642724522 groups=["tower_boxes"]]
 script = ExtResource("1_3inec")
@@ -48,6 +49,7 @@ amount = 100
 lifetime = 1.33
 one_shot = true
 explosiveness = 1.0
+randomness = 0.29
 trail_lifetime = 0.99
 process_material = SubResource("ParticleProcessMaterial_py7em")
 draw_pass_1 = SubResource("SphereMesh_t1fed")

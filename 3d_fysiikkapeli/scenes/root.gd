@@ -31,6 +31,15 @@ var force_step: float = 5.0
 var min_force: float = 5.0
 var max_force: float = 50.0
 
+# Kameraefektit
+var recoil_fov: float = 4.0
+var recoil_fov_offset: float = 0.0
+
+var shake_strength: float = 0.0
+var shake_decay: float = 12.0
+var shake_offset: Vector3 = Vector3.ZERO
+var camera_base_position: Vector3
+
 
 
 
@@ -103,6 +112,8 @@ func _ready() -> void:
 	controls_label.text = "SPACE - Zoomaus\n- - Vähennä voimaa\n+ - Lisää voimaa"
 	controls_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	controls_label.z_index = 10
+	
+	camera_base_position = camera.position
 
 
 
@@ -164,6 +175,7 @@ func shoot() -> void:
 		return
 
 	ammo_left -= 1
+	apply_recoil()
 	ammo_label.text = "Ammuksia: " + str(ammo_left)
 
 	var projectile = projectile_scene.instantiate() as RigidBody3D
@@ -225,12 +237,52 @@ func _process(delta: float) -> void:
 	if game_over:
 		return
 
+	# Palauta FOV normaaliksi pehmeästi.
+	recoil_fov_offset = lerpf(
+		recoil_fov_offset,
+		0.0,
+		minf(10.0 * delta, 1.0)
+	)
+
+	var target_fov: float = normal_fov + recoil_fov_offset
+
+	camera.fov = lerpf(
+		camera.fov,
+		target_fov,
+		minf(12.0 * delta, 1.0)
+	)
+
+	# Kameran kevyt tärähdys.
+	shake_strength = move_toward(
+		shake_strength,
+		0.0,
+		shake_decay * delta
+	)
+
+	shake_offset = Vector3(
+		randf_range(-shake_strength, shake_strength),
+		randf_range(-shake_strength, shake_strength),
+		0.0
+	)
+
+	camera.position = camera_base_position + shake_offset
+
+	# Päivitä pisteet.
 	update_score()
 
 	# Voitto, kun kaikki palikat ovat kaatuneet.
 	if get_fallen_percentage() >= 100:
 		end_game(true)
 		return
+
+	# Päivitä ajastin.
+	time_left = maxf(time_left - delta, 0.0)
+	timer_label.text = "Aikaa: %d" % ceili(time_left)
+
+	if time_left <= 0.0:
+		end_game(false)
+
+
 
 	time_left = maxf(time_left - delta, 0.0)
 	timer_label.text = "Aikaa: %d" % ceili(time_left)
@@ -355,6 +407,12 @@ func explode(block: RigidBody3D) -> void:
 				direction.normalized() * explosion_force
 			)
 
+func apply_recoil() -> void:
+	recoil_fov_offset = recoil_fov
+
+
+func apply_camera_shake(strength: float = 0.12) -> void:
+	shake_strength = maxf(shake_strength, strength)
 
 func _on_retry_pressed() -> void:
 	print("Yritä uudelleen painettu")
