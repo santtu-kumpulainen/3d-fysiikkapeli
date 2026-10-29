@@ -3,9 +3,23 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_py7em"]
 radius = 0.25
 
+[sub_resource type="MeshTexture" id="MeshTexture_t1fed"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_telwu"]
+albedo_color = Color(0.87509596, 0.27936277, 0.52374595, 1)
+albedo_texture = SubResource("MeshTexture_t1fed")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brpd5"]
+albedo_color = Color(0.5129698, 0.2825941, 0.24618797, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_py7em"]
+
 [sub_resource type="SphereMesh" id="SphereMesh_t1fed"]
+material = SubResource("StandardMaterial3D_py7em")
 radius = 0.25
 height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2ln5"]
 
 [node name="Projectile" type="RigidBody3D" unique_id=765478939]
 
@@ -13,4 +27,7 @@ height = 0.5
 shape = SubResource("SphereShape3D_py7em")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1702409920]
+material_override = SubResource("StandardMaterial3D_telwu")
+material_overlay = SubResource("StandardMaterial3D_brpd5")
 mesh = SubResource("SphereMesh_t1fed")
+surface_material_override/0 = SubResource("StandardMaterial3D_c2ln5")

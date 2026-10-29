@@ -175,7 +175,7 @@ func shoot() -> void:
 
 	# Odota fysiikan käsittelyä viimeisen laukauksen jälkeen.
 	if ammo_left == 0:
-		await get_tree().create_timer(3.0).timeout
+		await get_tree().create_timer(5.0).timeout
 		if not game_over:
 			end_game(false)
 
@@ -209,13 +209,13 @@ func update_score() -> void:
 	var percentage = get_fallen_percentage()
 	score_label.text = "Kaatuneet: %d%% / 100%%" % percentage
 
-
+## star rating
 func get_star_rating(percentage: int) -> String:
 	if percentage >= 100:
 		return "★★★"
-	elif percentage >= 90:
-		return "★★"
 	elif percentage >= 80:
+		return "★★"
+	elif percentage >= 65:
 		return "★"
 	else:
 		return "Ei tähtiä"
@@ -289,10 +289,10 @@ func _on_box_toppled(block: RigidBody3D) -> void:
 		2:
 			explode(block)
 
-
+## explosive
 func explode(block: RigidBody3D) -> void:
 	var explosion_radius := 4.0
-	var explosion_force := 8.0
+	var explosion_force := 5.0
 
 	for other in get_tree().get_nodes_in_group("tower_boxes"):
 		if other == block:
