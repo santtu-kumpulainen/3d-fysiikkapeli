@@ -32,8 +32,9 @@ var min_force: float = 5.0
 var max_force: float = 50.0
 
 # Kameraefektit
-var recoil_fov: float = 4.0
+var recoil_fov: float = 12.0
 var recoil_fov_offset: float = 0.0
+var recoil_return_speed: float = 8.0
 
 var shake_strength: float = 0.0
 var shake_decay: float = 12.0
@@ -239,10 +240,10 @@ func _process(delta: float) -> void:
 
 	# Palauta FOV normaaliksi pehmeästi.
 	recoil_fov_offset = lerpf(
-		recoil_fov_offset,
-		0.0,
-		minf(10.0 * delta, 1.0)
-	)
+	recoil_fov_offset,
+	0.0,
+	minf(recoil_return_speed * delta, 1.0)
+)
 
 	var target_fov: float = normal_fov + recoil_fov_offset
 
@@ -343,6 +344,8 @@ func _on_box_toppled(block: RigidBody3D) -> void:
 
 ## explode
 func explode(block: RigidBody3D) -> void:
+	
+	apply_camera_shake(0.55)
 	
 	var particles := block.get_node_or_null("ExplosionParticles") as GPUParticles3D
 
